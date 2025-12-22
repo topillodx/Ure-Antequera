@@ -201,6 +201,7 @@ db.ref().on("value", snap => {
     crearNumeros();
 });
 
+
 /* GUARDAR */
 function guardarTodo(){
     db.ref().set({
@@ -241,28 +242,28 @@ function clickNumero(num){
         const nombre = prompt("Nombre del participante:");
         if(!nombre) return;
         data[num] = {
-    nombre,
+    nombre: nombre,
     estado: "apartado",
     fecha: Date.now()
 };
 
         guardarTodo();
-        function liberarCaducados() {
+function liberarNumerosCaducados() {
     const ahora = Date.now();
-    const LIMITE = 3 * 24 * 60 * 60 * 1000; // 3 días
+    const TRES_DIAS = 3 * 24 * 60 * 60 * 1000;
 
-    let cambios = false;
+    let hayCambios = false;
 
     for (const num in data) {
         if (data[num].estado === "apartado" && data[num].fecha) {
-            if (ahora - data[num].fecha >= LIMITE) {
-                delete data[num];
-                cambios = true;
+            if (ahora - data[num].fecha >= TRES_DIAS) {
+                delete data[num]; // vuelve a gris
+                hayCambios = true;
             }
         }
     }
 
-    if (cambios) {
+    if (hayCambios) {
         guardarTodo();
     }
 }
@@ -298,8 +299,3 @@ function adminPanel(){
 
 </body>
 </html>
-
-
-
-
-
