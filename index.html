@@ -9,23 +9,26 @@
 body {
     margin: 0;
     font-family: "Segoe UI", Arial, sans-serif;
-    background: linear-gradient(90deg,#2e7d32,#43a047);
-
+    background: #85e085;
 }
 
 header {
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
     background: linear-gradient(90deg,#b71c1c,#e53935);
     color: white;
     padding: 12px 18px;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.2);
 }
 
 .header-left {
     display: flex;
     align-items: center;
+    gap: 15px;
+}
+
+.header-left img {
+    height: 60px;
 }
 
 .header-right {
@@ -35,19 +38,8 @@ header {
 }
 
 .header-img-right {
-    height: 42px;
+    height: 40px;
     border-radius: 6px;
-}
-
-
-header img {
-    height: 60px;
-    margin-right: 15px;
-}
-
-header h1 {
-    font-size: 20px;
-    line-height: 1.2;
 }
 
 .admin-header {
@@ -59,20 +51,17 @@ header h1 {
     border-radius: 50%;
     cursor: pointer;
 }
-.admin-header:hover {
-    background: rgba(255,255,255,0.3);
-}
 
 .contenido {
-    padding: 20px;
     max-width: 900px;
     margin: auto;
+    padding: 20px;
 }
 
 .card {
     background: white;
-    border-radius: 12px;
     padding: 18px;
+    border-radius: 12px;
     box-shadow: 0 6px 15px rgba(0,0,0,0.1);
     margin-top: 20px;
 }
@@ -85,47 +74,39 @@ header h1 {
     background: #000;
 }
 
-
 .pagos {
     display: grid;
     grid-template-columns: repeat(auto-fit,minmax(140px,1fr));
     gap: 12px;
-    margin-top: 15px;
 }
 
 .pagos button {
     padding: 14px;
     font-size: 16px;
     font-weight: bold;
-    border: none;
     border-radius: 10px;
-    cursor: pointer;
+    border: none;
     color: white;
+    cursor: pointer;
 }
 
-.bizum { background: #5f2eea; }
-.transferencia { background: #00897b; }
-.paypal { background: #003087; }
-
-.pagos button:hover {
-    opacity: 0.9;
-}
+.bizum { background:#5f2eea; }
+.transferencia { background:#00897b; }
+.paypal { background:#003087; }
 
 .numeros {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(5,1fr);
     gap: 10px;
-    margin-top: 20px;
+    margin-top: 15px;
 }
 
-@media (min-width: 600px) {
-    .numeros {
-        grid-template-columns: repeat(10, 1fr);
-    }
+@media (min-width:600px){
+    .numeros { grid-template-columns: repeat(10,1fr); }
 }
 
 .numero {
-    background: #d9d9d9;
+    background: #ccc;
     padding: 12px;
     border-radius: 8px;
     text-align: center;
@@ -133,8 +114,8 @@ header h1 {
     font-weight: bold;
 }
 
-.apartado { background: #ffc107; }
-.pagado { background: #4caf50; color: white; }
+.apartado { background:#ffc107; }
+.pagado { background:#4caf50; color:white; }
 
 .nombre {
     font-size: 11px;
@@ -147,12 +128,12 @@ header h1 {
 
 <header>
     <div class="header-left">
-        <img src="Logo.png" alt="URE Antequera">
-        <h1>EA7URT<br>URE Antequera (Union De Radioaficionados Del Torcal)</h1>
+        <img src="./Logo.png">
+        <h2>EA7URT<br>URE Antequera (Union De Radioaficionados Del Torcal)</h2>
     </div>
 
     <div class="header-right">
-        <img src="URE.png" alt="URE" class="header-img-right">
+        <img src="./URE.png" class="header-img-right">
         <button class="admin-header" onclick="adminPanel()">⚙️</button>
     </div>
 </header>
@@ -160,7 +141,7 @@ header h1 {
 <div class="contenido">
 
 <div class="card sorteo-img">
-    <img src="sorteo.jpg" alt="Sorteo">
+    <img src="./sorteo.jpg">
 </div>
 
 <div class="card" id="infoSorteo"></div>
@@ -168,114 +149,127 @@ header h1 {
 <div class="card">
     <h3>💳 Formas de pago</h3>
     <div class="pagos">
-        <button class="bizum" onclick="alert('📱 Bizum: ' + bizum)">BIZUM</button>
-        <button class="transferencia" onclick="alert('🏦 IBAN: ' + iban)">TRANSFERENCIA</button>
-        <button class="paypal" onclick="alert('💻 PayPal: ' + paypal)">PAYPAL</button>
+        <button class="bizum" onclick="alert('Bizum: ' + bizum)">BIZUM</button>
+        <button class="transferencia" onclick="alert('IBAN: ' + iban)">TRANSFERENCIA</button>
+        <button class="paypal" onclick="alert('PayPal: ' + paypal)">PAYPAL</button>
     </div>
 </div>
 
 <div class="card">
-    <h3>🎟️ Números disponibles</h3>
+    <h3>🎟️ Números</h3>
     <div class="numeros" id="numeros"></div>
 </div>
 
 </div>
 
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
 <script>
 const ADMIN_PASSWORD = "EA7URT";
-const DIAS_LIMITE = 3;
 
-let data = JSON.parse(localStorage.getItem("rifa")) || {};
+/* FIREBASE CONFIG */
+const firebaseConfig = {
+  apiKey: "AIzaSyB3fE0DmiE7AcbcCq11P3vDB2Y4DgTbTbM",
+  authDomain: "sorteo-ure-antequera.firebaseapp.com",
+  databaseURL: "https://sorteo-ure-antequera-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "sorteo-ure-antequera",
+  storageBucket: "sorteo-ure-antequera.firebasestorage.app",
+  messagingSenderId: "108791552010",
+  appId: "1:108791552010:web:80db910fd30c67cfac27f3"
+};
 
-let infoTexto = localStorage.getItem("infoTexto") || `
-<b>🎁 Sorteo:</b> Yaesu FTM-510<br>
-<b>📅 Fecha:</b> __ / __ / ____<br>
-<b>💰 Donativo:</b> 10€<br>
-<b>📌 Aviso:</b> Los números se guardarán 3 días si no se recibe la donación.<br>
-<b>📌 Normas:</b> El sorteo se realizará cuando estén todos los números ocupados
-`;
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
 
-let bizum = localStorage.getItem("bizum") || "600000000";
-let iban = localStorage.getItem("iban") || "ES00 0000 0000 0000 0000 0000";
-let paypal = localStorage.getItem("paypal") || "correo@paypal.com";
+/* VARIABLES */
+let data = {};
+let infoTexto = "<b>🎁 Sorteo:</b> Equipo de radio<br><b>💰 Donativo:</b> 10€";
+let bizum = "600000000";
+let iban = "ES00 0000 0000 0000";
+let paypal = "correo@paypal.com";
 
-function guardar() {
-    localStorage.setItem("rifa", JSON.stringify(data));
-    localStorage.setItem("infoTexto", infoTexto);
-    localStorage.setItem("bizum", bizum);
-    localStorage.setItem("iban", iban);
-    localStorage.setItem("paypal", paypal);
+/* LEER DATOS */
+db.ref().on("value", snap => {
+    const v = snap.val() || {};
+    data = v.rifa || {};
+    infoTexto = v.infoTexto || infoTexto;
+    bizum = v.bizum || bizum;
+    iban = v.iban || iban;
+    paypal = v.paypal || paypal;
+    crearNumeros();
+});
+
+/* GUARDAR */
+function guardarTodo(){
+    db.ref().set({
+        rifa: data,
+        infoTexto,
+        bizum,
+        iban,
+        paypal
+    });
 }
 
-function limpiarCaducados() {
-    const ahora = new Date();
-    for (let n in data) {
-        if (data[n].estado === "apartado") {
-            const dias = (ahora - new Date(data[n].fechaApartado)) / (1000*60*60*24);
-            if (dias >= DIAS_LIMITE) delete data[n];
-        }
-    }
-    guardar();
-}
-
-function crearNumeros() {
+/* CREAR NUMEROS */
+function crearNumeros(){
     document.getElementById("infoSorteo").innerHTML = infoTexto;
     const cont = document.getElementById("numeros");
     cont.innerHTML = "";
 
-    for (let i = 0; i < 100; i++) {
+    for(let i=0;i<100;i++){
         const num = i.toString().padStart(2,"0");
         const d = document.createElement("div");
         d.className = "numero";
 
-        if (data[num]) {
+        if(data[num]){
             d.classList.add(data[num].estado);
-            d.innerHTML = `${num}<div class="nombre">${data[num].nombre}</div>`;
+            d.innerHTML = num + "<div class='nombre'>" + data[num].nombre + "</div>";
         } else {
             d.textContent = num;
         }
 
-        d.onclick = () => clickNumero(num);
+        d.onclick = ()=> clickNumero(num);
         cont.appendChild(d);
     }
 }
 
-function clickNumero(num) {
-    if (!data[num]) {
+/* CLICK */
+function clickNumero(num){
+    if(!data[num]){
         const nombre = prompt("Nombre del participante:");
-        if (!nombre) return;
-        data[num] = { nombre, estado:"apartado", fechaApartado:new Date().toISOString() };
-        guardar(); crearNumeros(); return;
+        if(!nombre) return;
+        data[num] = { nombre, estado:"apartado" };
+        guardarTodo();
+        return;
     }
 
-    alert(`❌ El número ${num} está en uso por ${data[num].nombre}`);
+    alert("Número ocupado por " + data[num].nombre);
 
     const pass = prompt("Contraseña administrador:");
-    if (pass !== ADMIN_PASSWORD) return;
+    if(pass !== ADMIN_PASSWORD) return;
 
-    const accion = prompt("ADMIN\n1 = Confirmar pago\n2 = Borrar número");
-    if (accion === "1") data[num].estado = "pagado";
-    if (accion === "2") delete data[num];
+    const accion = prompt("1 = Confirmar pago\n2 = Liberar número");
+    if(accion==="1") data[num].estado="pagado";
+    if(accion==="2") delete data[num];
 
-    guardar(); crearNumeros();
+    guardarTodo();
 }
 
-function adminPanel() {
+/* PANEL ADMIN */
+function adminPanel(){
     const pass = prompt("Contraseña administrador:");
-    if (pass !== ADMIN_PASSWORD) return;
+    if(pass !== ADMIN_PASSWORD) return;
 
-    infoTexto = prompt("Editar texto del sorteo:", infoTexto) || infoTexto;
-    bizum = prompt("Número Bizum:", bizum) || bizum;
+    infoTexto = prompt("Texto del sorteo:", infoTexto) || infoTexto;
+    bizum = prompt("Bizum:", bizum) || bizum;
     iban = prompt("IBAN:", iban) || iban;
-    paypal = prompt("PayPal (email):", paypal) || paypal;
+    paypal = prompt("PayPal:", paypal) || paypal;
 
-    guardar(); crearNumeros();
+    guardarTodo();
 }
-
-limpiarCaducados();
-crearNumeros();
 </script>
 
 </body>
 </html>
-
