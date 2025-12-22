@@ -8,8 +8,8 @@
 <style>
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background: #00ff00;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background:  #00ff00;
 }
 
 header {
@@ -37,8 +37,9 @@ header {
     color: white;
     font-size: 18px;
     padding: 8px 12px;
-    border-radius: 50%;
+    border-radius: 8px;
     cursor: pointer;
+    margin-left: 5px;
 }
 
 .contenido {
@@ -52,7 +53,7 @@ header {
     padding: 18px;
     border-radius: 12px;
     margin-top: 20px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
 }
 
 .sorteo-img img {
@@ -101,14 +102,20 @@ header {
     text-align: center;
     cursor: pointer;
     font-weight: bold;
+    transition: transform .15s;
+}
+
+.numero:hover {
+    transform: scale(1.05);
 }
 
 .apartado { background:#ffc107; }
 .pagado { background:#4caf50; color:white; }
 
 .nombre {
-    font-size: 11px;
-    font-weight: normal;
+    font-size: 12px;
+    margin-top: 4px;
+    opacity: .85;
 }
 </style>
 </head>
@@ -118,9 +125,12 @@ header {
 <header>
     <div class="header-left">
         <img src="Logo.png">
-        <h2>EA7URT<br>URE Antequera (Union De Radioaficionados Del Torcal)</h2>
+        <h2>EA7URT<br>URE Antequera (Union de Radioaficionados del Torcal)</h2>
     </div>
-    <button class="admin-header" onclick="adminPanel()">⚙️</button>
+    <div>
+        <button class="admin-header" onclick="adminPanel()">⚙️</button>
+        <button class="admin-header" onclick="verListado()">📋</button>
+    </div>
 </header>
 
 <div class="contenido">
@@ -142,21 +152,19 @@ header {
 
 <div class="card">
     <h3>🎟️ Números</h3>
+    <p>⬜ Libre &nbsp; 🟨 Apartado &nbsp; 🟩 Pagado</p>
     <div class="numeros" id="numeros"></div>
 </div>
 
 </div>
 
-<!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
 <script>
-/* ===== CONFIG ===== */
 const ADMIN_PASSWORD = "EA7URT";
 const TRES_DIAS = 3 * 24 * 60 * 60 * 1000;
 
-/* ===== FIREBASE ===== */
 firebase.initializeApp({
   apiKey: "AIzaSyB3fE0DmiE7AcbcCq11P3vDB2Y4DgTbTbM",
   authDomain: "sorteo-ure-antequera.firebaseapp.com",
@@ -169,7 +177,6 @@ firebase.initializeApp({
 
 const db = firebase.database();
 
-/* ===== DATOS ===== */
 let data = {};
 let infoTexto = `<b>🎁 Sorteo:</b> Yaesu FTM-510<br>
 <b>📅 Fecha:</b> __ / __ / ____<br>
@@ -181,109 +188,93 @@ let bizum = "600000000";
 let iban = "ES00 0000 0000 0000";
 let paypal = "correo@paypal.com";
 
-/* ===== LIBERAR AUTOMÁTICO ===== */
-function liberarCaducados() {
+function guardarTodo(){
+    db.ref().set({ rifa:data, infoTexto, bizum, iban, paypal });
+}
+
+function liberarCaducados(){
     const ahora = Date.now();
     let cambios = false;
 
-    for (const num in data) {
-        if (data[num].estado === "apartado" && data[num].fecha) {
-            if (ahora - data[num].fecha >= TRES_DIAS) {
-                delete data[num];
+    for(const n in data){
+        if(data[n].estado==="apartado" && data[n].fecha){
+            if(ahora - data[n].fecha >= TRES_DIAS){
+                delete data[n];
                 cambios = true;
             }
         }
     }
-
-    if (cambios) {
-        guardarTodo();
-    }
+    if(cambios) guardarTodo();
 }
 
-/* ===== GUARDAR ===== */
-function guardarTodo() {
-    db.ref().set({
-        rifa: data,
-        infoTexto,
-        bizum,
-        iban,
-        paypal
-    });
-}
-
-/* ===== DIBUJAR ===== */
-function crearNumeros() {
+function crearNumeros(){
     document.getElementById("infoSorteo").innerHTML = infoTexto;
     const cont = document.getElementById("numeros");
     cont.innerHTML = "";
 
-    for (let i = 0; i < 100; i++) {
-        const num = i.toString().padStart(2, "0");
+    for(let i=0;i<100;i++){
+        const num = i.toString().padStart(2,"0");
         const d = document.createElement("div");
         d.className = "numero";
 
-        if (data[num]) {
+        if(data[num]){
             d.classList.add(data[num].estado);
             d.innerHTML = num + "<div class='nombre'>" + data[num].nombre + "</div>";
-        } else {
-            d.textContent = num;
-        }
+        } else d.textContent = num;
 
-        d.onclick = () => clickNumero(num);
+        d.onclick = ()=>clickNumero(num);
         cont.appendChild(d);
     }
 }
 
-/* ===== CLICK ===== */
-function clickNumero(num) {
-    if (!data[num]) {
-        const nombre = prompt("Nombre del participante:");
-        if (!nombre) return;
-
-        data[num] = {
-            nombre: nombre,
-            estado: "apartado",
-            fecha: Date.now()
-        };
-
+function clickNumero(num){
+    if(!data[num]){
+        const nombre = prompt("Nombre / Indicativo:");
+        if(!nombre) return;
+        data[num]={ nombre, estado:"apartado", fecha:Date.now() };
         guardarTodo();
         return;
     }
 
     alert("Número ocupado por " + data[num].nombre);
-
     const pass = prompt("Contraseña administrador:");
-    if (pass !== ADMIN_PASSWORD) return;
+    if(pass!==ADMIN_PASSWORD) return;
 
-    const accion = prompt("1 = Confirmar pago\n2 = Liberar número");
-    if (accion === "1") data[num].estado = "pagado";
-    if (accion === "2") delete data[num];
-
+    const a = prompt("1 = Confirmar pago\n2 = Liberar número");
+    if(a==="1") data[num].estado="pagado";
+    if(a==="2") delete data[num];
     guardarTodo();
 }
 
-/* ===== ADMIN ===== */
-function adminPanel() {
+function adminPanel(){
     const pass = prompt("Contraseña administrador:");
-    if (pass !== ADMIN_PASSWORD) return;
+    if(pass!==ADMIN_PASSWORD) return;
 
     infoTexto = prompt("Texto del sorteo:", infoTexto) || infoTexto;
     bizum = prompt("Bizum:", bizum) || bizum;
     iban = prompt("IBAN:", iban) || iban;
     paypal = prompt("PayPal:", paypal) || paypal;
-
     guardarTodo();
 }
 
-/* ===== CARGA ===== */
-db.ref().on("value", snap => {
-    const v = snap.val() || {};
-    data = v.rifa || {};
-    infoTexto = v.infoTexto || infoTexto;
-    bizum = v.bizum || bizum;
-    iban = v.iban || iban;
-    paypal = v.paypal || paypal;
+function verListado(){
+    const pass = prompt("Contraseña administrador:");
+    if(pass!==ADMIN_PASSWORD) return;
 
+    let t="LISTADO PARTICIPANTES\n\nNúmero | Nombre | Estado\n";
+    Object.keys(data).sort().forEach(n=>{
+        t+=`${n} | ${data[n].nombre} | ${data[n].estado}\n`;
+    });
+    alert(t);
+}
+
+db.ref().on("value", snap=>{
+    const v=snap.val()||{};
+    data=v.rifa||{};
+    infoTexto=v.infoTexto||infoTexto;
+    bizum=v.bizum||bizum;
+    iban=v.iban||iban;
+    paypal=v.paypal||paypal;
     liberarCaducados();
     crearNumeros();
 });
@@ -291,5 +282,6 @@ db.ref().on("value", snap => {
 
 </body>
 </html>
+
 
 
