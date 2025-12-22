@@ -8,8 +8,8 @@
 <style>
 body {
     margin: 0;
-    font-family: "Segoe UI", Arial, sans-serif;
-    background: #85e085;
+    font-family: Arial, sans-serif;
+    background: #00ff00;
 }
 
 header {
@@ -29,17 +29,6 @@ header {
 
 .header-left img {
     height: 60px;
-}
-
-.header-right {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.header-img-right {
-    height: 40px;
-    border-radius: 6px;
 }
 
 .admin-header {
@@ -62,8 +51,8 @@ header {
     background: white;
     padding: 18px;
     border-radius: 12px;
-    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
     margin-top: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
 .sorteo-img img {
@@ -71,7 +60,7 @@ header {
     height: auto;
     object-fit: contain;
     border-radius: 12px;
-    background: #000;
+    background: black;
 }
 
 .pagos {
@@ -128,20 +117,16 @@ header {
 
 <header>
     <div class="header-left">
-        <img src="./Logo.png">
+        <img src="Logo.png">
         <h2>EA7URT<br>URE Antequera (Union De Radioaficionados Del Torcal)</h2>
     </div>
-
-    <div class="header-right">
-        <img src="./URE.png" class="header-img-right">
-        <button class="admin-header" onclick="adminPanel()">⚙️</button>
-    </div>
+    <button class="admin-header" onclick="adminPanel()">⚙️</button>
 </header>
 
 <div class="contenido">
 
 <div class="card sorteo-img">
-    <img src="./sorteo.jpg">
+    <img src="sorteo.jpg">
 </div>
 
 <div class="card" id="infoSorteo"></div>
@@ -167,10 +152,12 @@ header {
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
 <script>
+/* ===== CONFIG ===== */
 const ADMIN_PASSWORD = "EA7URT";
+const TRES_DIAS = 3 * 24 * 60 * 60 * 1000;
 
-/* FIREBASE CONFIG */
-const firebaseConfig = {
+/* ===== FIREBASE ===== */
+firebase.initializeApp({
   apiKey: "AIzaSyB3fE0DmiE7AcbcCq11P3vDB2Y4DgTbTbM",
   authDomain: "sorteo-ure-antequera.firebaseapp.com",
   databaseURL: "https://sorteo-ure-antequera-default-rtdb.europe-west1.firebasedatabase.app",
@@ -178,32 +165,43 @@ const firebaseConfig = {
   storageBucket: "sorteo-ure-antequera.firebasestorage.app",
   messagingSenderId: "108791552010",
   appId: "1:108791552010:web:80db910fd30c67cfac27f3"
-};
+});
 
-firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-/* VARIABLES */
+/* ===== DATOS ===== */
 let data = {};
-let infoTexto = "<b>🎁 Sorteo:</b> Equipo de radio<br><b>💰 Donativo:</b> 10€";
+let infoTexto = `<b>🎁 Sorteo:</b> Yaesu FTM-510<br>
+<b>📅 Fecha:</b> __ / __ / ____<br>
+<b>💰 Donativo:</b> 10€<br>
+<b>📌 Aviso:</b> Los números se guardarán 3 días.<br>
+<b>📌 Normas:</b> El sorteo se realizará cuando estén todos los números ocupados`;
+
 let bizum = "600000000";
 let iban = "ES00 0000 0000 0000";
 let paypal = "correo@paypal.com";
 
-/* LEER DATOS */
-db.ref().on("value", snap => {
-    const v = snap.val() || {};
-    data = v.rifa || {};
-    infoTexto = v.infoTexto || infoTexto;
-    bizum = v.bizum || bizum;
-    iban = v.iban || iban;
-    paypal = v.paypal || paypal;
-    crearNumeros();
-});
+/* ===== LIBERAR AUTOMÁTICO ===== */
+function liberarCaducados() {
+    const ahora = Date.now();
+    let cambios = false;
 
+    for (const num in data) {
+        if (data[num].estado === "apartado" && data[num].fecha) {
+            if (ahora - data[num].fecha >= TRES_DIAS) {
+                delete data[num];
+                cambios = true;
+            }
+        }
+    }
 
-/* GUARDAR */
-function guardarTodo(){
+    if (cambios) {
+        guardarTodo();
+    }
+}
+
+/* ===== GUARDAR ===== */
+function guardarTodo() {
     db.ref().set({
         rifa: data,
         infoTexto,
@@ -213,80 +211,61 @@ function guardarTodo(){
     });
 }
 
-/* CREAR NUMEROS */
-function crearNumeros(){
+/* ===== DIBUJAR ===== */
+function crearNumeros() {
     document.getElementById("infoSorteo").innerHTML = infoTexto;
     const cont = document.getElementById("numeros");
     cont.innerHTML = "";
 
-    for(let i=0;i<100;i++){
-        const num = i.toString().padStart(2,"0");
+    for (let i = 0; i < 100; i++) {
+        const num = i.toString().padStart(2, "0");
         const d = document.createElement("div");
         d.className = "numero";
 
-        if(data[num]){
+        if (data[num]) {
             d.classList.add(data[num].estado);
             d.innerHTML = num + "<div class='nombre'>" + data[num].nombre + "</div>";
         } else {
             d.textContent = num;
         }
 
-        d.onclick = ()=> clickNumero(num);
+        d.onclick = () => clickNumero(num);
         cont.appendChild(d);
     }
 }
 
-/* CLICK */
-function clickNumero(num){
-    if(!data[num]){
+/* ===== CLICK ===== */
+function clickNumero(num) {
+    if (!data[num]) {
         const nombre = prompt("Nombre del participante:");
-        if(!nombre) return;
+        if (!nombre) return;
+
         data[num] = {
-    nombre: nombre,
-    estado: "apartado",
-    fecha: Date.now()
-};
+            nombre: nombre,
+            estado: "apartado",
+            fecha: Date.now()
+        };
 
         guardarTodo();
-function liberarNumerosCaducados() {
-    const ahora = Date.now();
-    const TRES_DIAS = 3 * 24 * 60 * 60 * 1000;
-
-    let hayCambios = false;
-
-    for (const num in data) {
-        if (data[num].estado === "apartado" && data[num].fecha) {
-            if (ahora - data[num].fecha >= TRES_DIAS) {
-                delete data[num]; // vuelve a gris
-                hayCambios = true;
-            }
-        }
-    }
-
-    if (hayCambios) {
-        guardarTodo();
-    }
-}
-
         return;
     }
 
     alert("Número ocupado por " + data[num].nombre);
 
     const pass = prompt("Contraseña administrador:");
-    if(pass !== ADMIN_PASSWORD) return;
+    if (pass !== ADMIN_PASSWORD) return;
 
     const accion = prompt("1 = Confirmar pago\n2 = Liberar número");
-    if(accion==="1") data[num].estado="pagado";
-    if(accion==="2") delete data[num];
+    if (accion === "1") data[num].estado = "pagado";
+    if (accion === "2") delete data[num];
 
     guardarTodo();
 }
 
-/* PANEL ADMIN */
-function adminPanel(){
+/* ===== ADMIN ===== */
+function adminPanel() {
     const pass = prompt("Contraseña administrador:");
-    if(pass !== ADMIN_PASSWORD) return;
+    if (pass !== ADMIN_PASSWORD) return;
 
     infoTexto = prompt("Texto del sorteo:", infoTexto) || infoTexto;
     bizum = prompt("Bizum:", bizum) || bizum;
@@ -295,7 +274,22 @@ function adminPanel(){
 
     guardarTodo();
 }
+
+/* ===== CARGA ===== */
+db.ref().on("value", snap => {
+    const v = snap.val() || {};
+    data = v.rifa || {};
+    infoTexto = v.infoTexto || infoTexto;
+    bizum = v.bizum || bizum;
+    iban = v.iban || iban;
+    paypal = v.paypal || paypal;
+
+    liberarCaducados();
+    crearNumeros();
+});
 </script>
 
 </body>
 </html>
+
+
