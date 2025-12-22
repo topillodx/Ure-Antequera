@@ -198,8 +198,11 @@ db.ref().on("value", snap => {
     bizum = v.bizum || bizum;
     iban = v.iban || iban;
     paypal = v.paypal || paypal;
+
+    liberarCaducados();
     crearNumeros();
 });
+
 
 /* GUARDAR */
 function guardarTodo(){
@@ -240,8 +243,33 @@ function clickNumero(num){
     if(!data[num]){
         const nombre = prompt("Nombre del participante:");
         if(!nombre) return;
-        data[num] = { nombre, estado:"apartado" };
+        data[num] = {
+    nombre,
+    estado: "apartado",
+    fecha: Date.now()
+};
+
         guardarTodo();
+        function liberarCaducados() {
+    const ahora = Date.now();
+    const LIMITE = 3 * 24 * 60 * 60 * 1000; // 3 días
+
+    let cambios = false;
+
+    for (const num in data) {
+        if (data[num].estado === "apartado" && data[num].fecha) {
+            if (ahora - data[num].fecha >= LIMITE) {
+                delete data[num];
+                cambios = true;
+            }
+        }
+    }
+
+    if (cambios) {
+        guardarTodo();
+    }
+}
+
         return;
     }
 
@@ -273,3 +301,4 @@ function adminPanel(){
 
 </body>
 </html>
+
