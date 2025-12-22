@@ -198,7 +198,6 @@ db.ref().on("value", snap => {
     bizum = v.bizum || bizum;
     iban = v.iban || iban;
     paypal = v.paypal || paypal;
-    liberarNumerosCaducados(); 
     crearNumeros();
 });
 
@@ -300,6 +299,7 @@ function adminPanel(){
 
 </body>
 </html>
+
 
 
 
