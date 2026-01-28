@@ -3,20 +3,116 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Plan de Bandas EG7DA</title>
-<style>
-body { font-family:'Segoe UI',Arial,Helvetica,sans-serif; background:#f0f0f0; margin:0; padding:0;}
-header, footer { text-align:center; background:#003087; color:white; padding:12px;}
-main { max-width:900px; margin:20px auto; background:white; padding:20px; border-radius:12px; box-shadow:0 0 15px rgba(0,0,0,.2);}
-table { width:100%; border-collapse:collapse; margin-top:15px;}
-th, td { border:1px solid #ccc; padding:8px; text-align:center;}
-th { background:#1a6aff; color:white;}
-td.bandPlan { background:#e6ffff; font-weight:bold; }
-button { margin-top:10px; padding:8px 14px; background:#003087; color:white; border:none; border-radius:6px; cursor:pointer; }
+<title>Plan de Bandas y Normas EG7DA</title>
 
+<style>
+body{
+  font-family:'Segoe UI',Arial,Helvetica,sans-serif;
+  background:#f0f0f0;
+  margin:0;
+}
+
+header{
+  background:linear-gradient(135deg,#003087,#1a6aff);
+  color:white;
+  text-align:center;
+  padding:35px 15px;
+}
+
+header h1{
+  margin:0;
+  font-size:2.4em;
+  letter-spacing:1px;
+}
+
+header p{
+  margin-top:10px;
+  font-size:1.1em;
+  opacity:.95;
+}
+
+main{
+  max-width:1000px;
+  margin:25px auto;
+  background:white;
+  padding:25px;
+  border-radius:15px;
+  box-shadow:0 0 18px rgba(0,0,0,.25);
+}
+
+.section{
+  margin-bottom:35px;
+}
+
+.section h2{
+  text-align:center;
+  color:#003087;
+  margin-bottom:20px;
+}
+
+/* DESCARGA */
+.descarga{
+  text-align:center;
+  background:#eef6ff;
+  border:2px solid #003087;
+  border-radius:14px;
+  padding:25px;
+}
+
+.descarga a{
+  display:inline-block;
+  margin-top:15px;
+  padding:16px 34px;
+  background:linear-gradient(135deg,#0a5c2f,#1c8a4a);
+  color:white;
+  font-size:1.2em;
+  font-weight:bold;
+  border-radius:30px;
+  text-decoration:none;
+  box-shadow:0 6px 14px rgba(0,0,0,.35);
+  transition:.25s;
+}
+
+.descarga a:hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 22px rgba(0,0,0,.45);
+}
+
+/* TABLA */
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:20px;
+}
+
+th,td{
+  border:1px solid #ccc;
+  padding:8px;
+  text-align:center;
+}
+
+th{
+  background:#1a6aff;
+  color:white;
+}
+
+td.bandPlan{
+  background:#e6ffff;
+  font-weight:bold;
+}
+
+/* NORMAS */
+.normas{
+  background:#e6f7ff;
+  border:2px solid #003087;
+  border-radius:12px;
+  padding:20px;
+}
+
+/* BOTONES */
 .volver-container{
   text-align:center;
-  margin:35px 0 10px 0;
+  margin-top:35px;
 }
 
 .btn-volver{
@@ -28,95 +124,89 @@ button { margin-top:10px; padding:8px 14px; background:#003087; color:white; bor
   font-weight:bold;
   border-radius:30px;
   cursor:pointer;
-  box-shadow:0 6px 15px rgba(0,0,0,0.3);
-  transition:all 0.25s ease;
+  box-shadow:0 6px 15px rgba(0,0,0,.3);
+  transition:.25s;
 }
 
 .btn-volver:hover{
-  background:linear-gradient(135deg,#1a6aff,#003087);
   transform:translateY(-3px);
-  box-shadow:0 10px 22px rgba(0,0,0,0.4);
 }
 
-.btn-volver:active{
-  transform:translateY(0);
-  box-shadow:0 4px 10px rgba(0,0,0,0.25);
+footer{
+  text-align:center;
+  background:#003087;
+  color:white;
+  padding:12px;
+  margin-top:30px;
 }
-
 </style>
 </head>
+
 <body>
 
 <header>
-  <h1>Plan de Bandas EG7DA</h1>
+  <h1>EG7DA · Plan de Bandas</h1>
+  <p>Gestión de frecuencias, modos y normas de operación</p>
 </header>
 
 <main>
 
-  <table>
-    <tr>
-      <th>Banda</th>
-      <th>CW</th>
-      <th>SSB</th>
-      <th>RTTY</th>
-      <th>FT8</th>
-      <th>FT4</th>
-      <th>PSK</th>
-    </tr>
+<!-- DESCARGA PDF -->
+<section class="section descarga">
+  <h2>📄 Configuración de Registro</h2>
+  <p>Descarga el archivo oficial de configuración para el software de log:</p>
+  <a href="docs/CONFIGURAR CLUBLOG GATEWAY+N1MM.pdf" download>
+    ⬇ Descargar CONFIGURAR CLUBLOG GATEWAY + N1MM
+  </a>
+</section>
 
-    <tr><td class="bandPlan">80 m</td><td>3.500–3.600</td><td>3.650-3.800</td><td>3.580-3.620</td><td>3.573 MHz</td><td>3.574 MHz</td><td>3.580-3.620</td></tr>
-    <tr><td class="bandPlan">60 m</td><td>5.351.5-5.354</td><td>5.354-5.366</td><td>5.351.5-5.354</td><td>5.357 MHz</td><td>5.357 MHz</td><td>5.351.5-5.354</td></tr>
-    <tr><td class="bandPlan">40 m</td><td>7.000–7.050</td><td>7.060-7.200</td><td>7.038-7.060</td><td>7.074 MHz</td><td>7.047.5 MHz</td><td>7.038-7.050</td></tr>
-    <tr><td class="bandPlan">30 m</td><td>10.100–10.125</td><td>BLOQUEADO</td><td>10.138-10.145</td><td>10.136 MHz</td><td>10.140 MHz</td><td>10.138-10.145</td></tr>
-    <tr><td class="bandPlan">20 m</td><td>14.000-14.070</td><td>14.130-14.350</td><td>14.080-14.120</td><td>14.074 MHz</td><td>14.080 MHz</td><td>14.070-14.095</td></tr>
-    <tr><td class="bandPlan">17 m</td><td>18.068-18.095</td><td>18.110-18.168</td><td>18.095-18.109</td><td>18.100 MHz</td><td>18.104 MHz</td><td>18.095-18.109</td></tr>
-    <tr><td class="bandPlan">15 m</td><td>21.000-21.070</td><td>21.141-21.450</td><td>21.080-21.120</td><td>21.074 MHz</td><td>21.140 MHz</td><td>21.070-21.120</td></tr>
-    <tr><td class="bandPlan">12 m</td><td>24.890-24.915</td><td>24.931-24.990</td><td>24.915-24.940</td><td>24.915 MHz</td><td>24.919 MHz</td><td>24.915-24.925</td></tr>
-    <tr><td class="bandPlan">10 m</td><td>28.000-28.070</td><td>28.320-29.000</td><td>28.080-28.120</td><td>28.074 MHz</td><td>28.180 MHz</td><td>28.070-28.120</td></tr>
-    <tr><td class="bandPlan">6 m</td><td>50.000-50.120</td><td>50.100-50.200</td><td>50.300-50.400</td><td>50.313 MHz</td><td>50.318 MHz</td><td>50.300-50.400</td></tr>
-    <tr><td class="bandPlan">2 m</td><td>144.110-144.150</td><td>144.150-144.400</td><td>144.180-144.360</td><td>144.174 MHz</td><td>144.180 MHz</td><td>144.150-144.180</td></tr>
-  </table>
+<!-- PLAN DE BANDAS -->
+<section class="section">
+<h2>📊 Plan de Bandas</h2>
 
-<div id="normas" style="margin-top:30px; padding:15px; background:#e6f7ff; border:2px solid #003087; border-radius:10px; max-width:900px; margin-left:auto; margin-right:auto;">
-  <h3 style="color:#003087; text-align:center;">Normas de uso de la página</h3>
-  <ol>
-    <li>Solo un operador puede ocupar una casilla a la vez, excepto administradores.</li>
-    <li>Para elegir un modo, haz click en la casilla y selecciona el modo adecuado.</li>
-    <li>Las frecuencias deben respetar los límites indicados para cada banda y modo.</li>
-    <li>Las casillas bloqueadas no pueden ser ocupadas (marcadas como BLOKED).</li>
-    <li>Si deseas liberar tu casilla, utiliza el botón “Liberar banda” en el modal.</li>
-    <li>Administradores pueden modificar o liberar cualquier casilla.</li>
-    <li>Casillas rtty+psk , ft8+ft4 si por ejemplo estoy en 20m ft8 y otro operador quiere salir
-     en 20m ft4 puede anotarlo en la casilla de rtty+psk en esas dos columnas se puede anotar cualquiera de los 4 modos.</li>
-    <li>Diviértete y respeta el uso de la página para que todos puedan participar correctamente.</li>
-    <li>Al salir de la página, recuerda liberar tu casilla para que otros operadores puedan usarla.</li>
-  </ol>
+<table>
+<tr>
+<th>Banda</th><th>CW</th><th>SSB</th><th>RTTY</th><th>FT8</th><th>FT4</th><th>PSK</th>
+</tr>
+
+<tr><td class="bandPlan">80 m</td><td>3.500–3.600</td><td>3.650-3.800</td><td>3.580-3.620</td><td>3.573</td><td>3.574</td><td>3.580-3.620</td></tr>
+<tr><td class="bandPlan">60 m</td><td>5.351.5-5.354</td><td>5.354-5.366</td><td>5.351.5-5.354</td><td>5.357</td><td>5.357</td><td>5.351.5-5.354</td></tr>
+<tr><td class="bandPlan">40 m</td><td>7.000–7.050</td><td>7.060-7.200</td><td>7.038-7.060</td><td>7.074</td><td>7.047.5</td><td>7.038-7.050</td></tr>
+<tr><td class="bandPlan">30 m</td><td>10.100–10.125</td><td>BLOQUEADO</td><td>10.138-10.145</td><td>10.136</td><td>10.140</td><td>10.138-10.145</td></tr>
+<tr><td class="bandPlan">20 m</td><td>14.000-14.070</td><td>14.130-14.350</td><td>14.080-14.120</td><td>14.074</td><td>14.080</td><td>14.070-14.095</td></tr>
+<tr><td class="bandPlan">17 m</td><td>18.068-18.095</td><td>18.110-18.168</td><td>18.095-18.109</td><td>18.100</td><td>18.104</td><td>18.095-18.109</td></tr>
+<tr><td class="bandPlan">15 m</td><td>21.000-21.070</td><td>21.141-21.450</td><td>21.080-21.120</td><td>21.074</td><td>21.140</td><td>21.070-21.120</td></tr>
+<tr><td class="bandPlan">12 m</td><td>24.890-24.915</td><td>24.931-24.990</td><td>24.915-24.940</td><td>24.915</td><td>24.919</td><td>24.915-24.925</td></tr>
+<tr><td class="bandPlan">10 m</td><td>28.000-28.070</td><td>28.320-29.000</td><td>28.080-28.120</td><td>28.074</td><td>28.180</td><td>28.070-28.120</td></tr>
+<tr><td class="bandPlan">6 m</td><td>50.000-50.120</td><td>50.100-50.200</td><td>50.300-50.400</td><td>50.313</td><td>50.318</td><td>50.300-50.400</td></tr>
+<tr><td class="bandPlan">2 m</td><td>144.110-144.150</td><td>144.150-144.400</td><td>144.180-144.360</td><td>144.174</td><td>144.180</td><td>144.150-144.180</td></tr>
+</table>
+</section>
+
+<!-- NORMAS -->
+<section class="section normas">
+<h2>📜 Normas de uso</h2>
+<ol>
+<li>Solo un operador por casilla (excepto administradores).</li>
+<li>Respeta modos y frecuencias indicadas.</li>
+<li>Casillas bloqueadas no se pueden usar.</li>
+<li>Libera tu casilla al finalizar.</li>
+<li>RTTY+PSK y FT8+FT4 pueden compartirse según normas.</li>
+<li>Administradores pueden liberar cualquier banda.</li>
+<li>Respeto y buen uso para el disfrute de todos.</li>
+</ol>
+</section>
+
+<!-- BOTÓN URE -->
+<div style="text-align:center;">
+<a href="https://www.ure.es/bandas-atribuidas/" target="_blank"
+style="display:inline-block;padding:16px 30px;background:linear-gradient(135deg,#0a5c2f,#1c8a4a);color:white;font-size:1.2em;font-weight:bold;border-radius:10px;text-decoration:none;">
+📡 VER BANDAS ATRIBUIDAS URE
+</a>
 </div>
 
-  <!-- BOTÓN BANDAS URE -->
-  <div style="text-align:center; margin-top:25px;">
-    <a href="https://www.ure.es/bandas-atribuidas/" target="_blank"
-       style="
-         display:inline-block;
-         padding:16px 30px;
-         background:linear-gradient(135deg,#0a5c2f,#1c8a4a);
-         color:white;
-         font-size:1.2em;
-         font-weight:bold;
-         border-radius:10px;
-         text-decoration:none;
-         box-shadow:0 6px 14px rgba(0,0,0,0.35);
-         transition: transform .2s, box-shadow .2s;
-       "
-       onmouseover="this.style.transform='scale(1.05)';this.style.boxShadow='0 10px 20px rgba(0,0,0,0.45)'"
-       onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 6px 14px rgba(0,0,0,0.35)'"
-    >
-      📡 VER BANDAS ATRIBUIDAS URE
-    </a>
-  </div>
-
-  <div class="volver-container">
-  <button class="btn-volver" onclick="history.back()">⬅ Volver</button>
+<div class="volver-container">
+<button class="btn-volver" onclick="history.back()">⬅ Volver</button>
 </div>
 
 </main>
