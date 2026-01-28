@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan de Bandas EG7DA</title>
+<style>
+body { font-family:'Segoe UI',Arial,Helvetica,sans-serif; background:#f0f0f0; margin:0; padding:0;}
+header, footer { text-align:center; background:#003087; color:white; padding:12px;}
+main { max-width:900px; margin:20px auto; background:white; padding:20px; border-radius:12px; box-shadow:0 0 15px rgba(0,0,0,.2);}
+table { width:100%; border-collapse:collapse; margin-top:15px;}
+th, td { border:1px solid #ccc; padding:8px; text-align:center;}
+th { background:#1a6aff; color:white;}
+td.bandPlan { background:#e6ffff; font-weight:bold; }
+button { margin-top:10px; padding:8px 14px; background:#003087; color:white; border:none; border-radius:6px; cursor:pointer; }
+
+.volver-container{
+  text-align:center;
+  margin:35px 0 10px 0;
+}
+
+.btn-volver{
+  background:linear-gradient(135deg,#003087,#1a6aff);
+  color:white;
+  border:none;
+  padding:14px 32px;
+  font-size:1.15em;
+  font-weight:bold;
+  border-radius:30px;
+  cursor:pointer;
+  box-shadow:0 6px 15px rgba(0,0,0,0.3);
+  transition:all 0.25s ease;
+}
+
+.btn-volver:hover{
+  background:linear-gradient(135deg,#1a6aff,#003087);
+  transform:translateY(-3px);
+  box-shadow:0 10px 22px rgba(0,0,0,0.4);
+}
+
+.btn-volver:active{
+  transform:translateY(0);
+  box-shadow:0 4px 10px rgba(0,0,0,0.25);
+}
+
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Plan de Bandas EG7DA</h1>
+</header>
+
+<main>
+
+  <table>
+    <tr>
+      <th>Banda</th>
+      <th>CW</th>
+      <th>SSB</th>
+      <th>RTTY</th>
+      <th>FT8</th>
+      <th>FT4</th>
+      <th>PSK</th>
+    </tr>
+
+    <tr><td class="bandPlan">80 m</td><td>3.500–3.600</td><td>3.650-3.800</td><td>3.580-3.620</td><td>3.573 MHz</td><td>3.574 MHz</td><td>3.580-3.620</td></tr>
+    <tr><td class="bandPlan">60 m</td><td>5.351.5-5.354</td><td>5.354-5.366</td><td>5.351.5-5.354</td><td>5.357 MHz</td><td>5.357 MHz</td><td>5.351.5-5.354</td></tr>
+    <tr><td class="bandPlan">40 m</td><td>7.000–7.050</td><td>7.060-7.200</td><td>7.038-7.060</td><td>7.074 MHz</td><td>7.047.5 MHz</td><td>7.038-7.050</td></tr>
+    <tr><td class="bandPlan">30 m</td><td>10.100–10.125</td><td>BLOQUEADO</td><td>10.138-10.145</td><td>10.136 MHz</td><td>10.140 MHz</td><td>10.138-10.145</td></tr>
+    <tr><td class="bandPlan">20 m</td><td>14.000-14.070</td><td>14.130-14.350</td><td>14.080-14.120</td><td>14.074 MHz</td><td>14.080 MHz</td><td>14.070-14.095</td></tr>
+    <tr><td class="bandPlan">17 m</td><td>18.068-18.095</td><td>18.110-18.168</td><td>18.095-18.109</td><td>18.100 MHz</td><td>18.104 MHz</td><td>18.095-18.109</td></tr>
+    <tr><td class="bandPlan">15 m</td><td>21.000-21.070</td><td>21.141-21.450</td><td>21.080-21.120</td><td>21.074 MHz</td><td>21.140 MHz</td><td>21.070-21.120</td></tr>
+    <tr><td class="bandPlan">12 m</td><td>24.890-24.915</td><td>24.931-24.990</td><td>24.915-24.940</td><td>24.915 MHz</td><td>24.919 MHz</td><td>24.915-24.925</td></tr>
+    <tr><td class="bandPlan">10 m</td><td>28.000-28.070</td><td>28.320-29.000</td><td>28.080-28.120</td><td>28.074 MHz</td><td>28.180 MHz</td><td>28.070-28.120</td></tr>
+    <tr><td class="bandPlan">6 m</td><td>50.000-50.120</td><td>50.100-50.200</td><td>50.300-50.400</td><td>50.313 MHz</td><td>50.318 MHz</td><td>50.300-50.400</td></tr>
+    <tr><td class="bandPlan">2 m</td><td>144.110-144.150</td><td>144.150-144.400</td><td>144.180-144.360</td><td>144.174 MHz</td><td>144.180 MHz</td><td>144.150-144.180</td></tr>
+  </table>
+
+<div id="normas" style="margin-top:30px; padding:15px; background:#e6f7ff; border:2px solid #003087; border-radius:10px; max-width:900px; margin-left:auto; margin-right:auto;">
+  <h3 style="color:#003087; text-align:center;">Normas de uso de la página</h3>
+  <ol>
+    <li>Solo un operador puede ocupar una casilla a la vez, excepto administradores.</li>
+    <li>Para elegir un modo, haz click en la casilla y selecciona el modo adecuado.</li>
+    <li>Las frecuencias deben respetar los límites indicados para cada banda y modo.</li>
+    <li>Las casillas bloqueadas no pueden ser ocupadas (marcadas como BLOKED).</li>
+    <li>Si deseas liberar tu casilla, utiliza el botón “Liberar banda” en el modal.</li>
+    <li>Administradores pueden modificar o liberar cualquier casilla.</li>
+    <li>Casillas rtty+psk , ft8+ft4 si por ejemplo estoy en 20m ft8 y otro operador quiere salir
+     en 20m ft4 puede anotarlo en la casilla de rtty+psk en esas dos columnas se puede anotar cualquiera de los 4 modos.</li>
+    <li>Diviértete y respeta el uso de la página para que todos puedan participar correctamente.</li>
+    <li>Al salir de la página, recuerda liberar tu casilla para que otros operadores puedan usarla.</li>
+  </ol>
+</div>
+
+  <!-- BOTÓN BANDAS URE -->
+  <div style="text-align:center; margin-top:25px;">
+    <a href="https://www.ure.es/bandas-atribuidas/" target="_blank"
+       style="
+         display:inline-block;
+         padding:16px 30px;
+         background:linear-gradient(135deg,#0a5c2f,#1c8a4a);
+         color:white;
+         font-size:1.2em;
+         font-weight:bold;
+         border-radius:10px;
+         text-decoration:none;
+         box-shadow:0 6px 14px rgba(0,0,0,0.35);
+         transition: transform .2s, box-shadow .2s;
+       "
+       onmouseover="this.style.transform='scale(1.05)';this.style.boxShadow='0 10px 20px rgba(0,0,0,0.45)'"
+       onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 6px 14px rgba(0,0,0,0.35)'"
+    >
+      📡 VER BANDAS ATRIBUIDAS URE
+    </a>
+  </div>
+
+  <div class="volver-container">
+  <button class="btn-volver" onclick="history.back()">⬅ Volver</button>
+</div>
+
+</main>
+
+<footer>© TOPILLODX</footer>
+
+</body>
+</html>
